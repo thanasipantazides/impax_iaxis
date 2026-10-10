@@ -1,0 +1,118 @@
+source system	class	packet name	apid	name	bit_offset	bit_length	data_type	byte_order	unit	description	reference
+AXIS	HK	HK Runtime	0x220	Coarse Time	0	32	uint	big		Coarse time counter. Instrument clock, in seconds, when the packet is built. Set by OBC Time at Tone command.	
+AXIS	HK	HK Runtime	0x220	Fine Time	32	16	uint	big		Fine time counter. Milliseconds into the coarse second.	
+AXIS	HK	HK Runtime	0x220	Ancillary Data	48	32	fill	big		Placeholder.	
+AXIS	HK	HK Runtime	0x220	Runtime	80	32	uint	big	s	Seconds since the last boot; wraps at 2^32 s. Absolute time is in the secondary header.	IPX-ICD-002r4.3
+AXIS	HK	HK Runtime	0x220	PPS Offset	112	16	uint	big	µs	Offset between the instrument clock and the last PPS edge. Currently always 0: not yet populated by the collector.	IPX-ICD-002r4.3
+AXIS	HK	HK Runtime	0x220	Commands Received	128	16	uint	big		Commands received.	IPX-ICD-002r4.3
+AXIS	HK	HK Runtime	0x220	Commands Accepted	144	16	uint	big		Commands accepted.	IPX-ICD-002r4.3
+AXIS	HK	HK Runtime	0x220	Commands Rejected	160	16	uint	big		Commands rejected.	IPX-ICD-002r4.3
+AXIS	HK	HK Runtime	0x220	Status Flags	176	32	uint	big		Instrument status, refreshed every HK interval; only Sequence Error is latched.	IPX-ICD-002r4.3
+AXIS	HK	HK Runtime	0x220	Error Flags	208	32	uint	big		Error flags. Most bits are sticky for the run: a condition occurred, not how often or whether it is still true.	IPX-ICD-002r4.3
+AXIS	HK	HK Runtime	0x220	Power []	240	12	uint(15)	big	ADC count	15 power-rail monitors, raw 12-bit ADC codes; conversion is ground-side.	IPX-ICD-002r4.3
+AXIS	HK	HK Runtime	0x220	Temperature []	420	12	uint(8)	big	ADC count	8 temperature monitors, raw 12-bit ADC codes; conversion is ground-side.	IPX-ICD-002r4.3
+AXIS	HK	HK Runtime	0x220	Reserved	516	4	fill	big		Reserved, always zero. Byte-aligns the fields that follow the 12-bit/4-bit run.	IPX-ICD-002r4.3
+AXIS	HK	HK Runtime	0x220	Thread A Mode	520	4	uint	big		Science thread A product selector (Thread Mode). Values: see Thread Control (0x0A).	IPX-ICD-002r4.3
+AXIS	HK	HK Runtime	0x220	Thread B Mode	524	4	uint	big		Science thread B product selector (Thread Mode). Values: see Thread Control (0x0A).	IPX-ICD-002r4.3
+AXIS	HK	HK Runtime	0x220	Ring Overruns	528	16	uint	big		Events lost since boot because a science channel was lapped on the event ring, threads A and B summed.	IPX-ICD-002r4.3
+AXIS	HK	HK Runtime	0x220	Capture Overrun	544	16	uint	big		Events lost since boot because the capture ring lapped before the drain reached them.	IPX-ICD-002r4.3
+AXIS	HK	HK Runtime	0x220	Ring Overrun Count	560	8	uint	big		Number of times a science channel has been lapped since boot.	IPX-ICD-002r4.3
+AXIS	HK	HK Runtime	0x220	Capture Overrun Count	568	8	uint	big		Number of times the capture ring has lapped since boot.	IPX-ICD-002r4.3
+AXIS	HK	HK Runtime	0x220	Fault Code	576	16	uint	big		Subsystem-specific code for that fault.	IPX-ICD-002r4.3
+AXIS	HK	HK Runtime	0x220	Fault Count	592	16	uint	big		Total faults since boot.	IPX-ICD-002r4.3
+AXIS	HK	HK Runtime	0x220	Fault Source	608	8	uint	big		Subsystem that raised the last fault. Values: Fault Source (see table below).	IPX-ICD-002r4.3
+AXIS	HK	HK Runtime	0x220	Dropped Transfer Frames	616	8	uint	big		Inbound transfer frames discarded by the transport since boot (resync, bad checksum, bad length), both links summed.	IPX-ICD-002r4.3
+											
+AXIS	HK	HK Static	0x221	Coarse Time	0	32	uint	big		Coarse time counter. Instrument clock, in seconds, when the packet is built. Set by OBC Time at Tone command.	
+AXIS	HK	HK Static	0x221	Fine Time	32	16	uint	big		Fine time counter. Milliseconds into the coarse second.	
+AXIS	HK	HK Static	0x221	Ancillary Data	48	32	fill	big		Placeholder.	
+AXIS	HK	HK Static	0x221	Version Major	80	8	uint	big		Firmware semantic version, major.	IPX-ICD-002r4.3
+AXIS	HK	HK Static	0x221	Version Minor	88	8	uint	big		Firmware semantic version, minor.	IPX-ICD-002r4.3
+AXIS	HK	HK Static	0x221	Version Patch	96	8	uint	big		Firmware semantic version, patch.	IPX-ICD-002r4.3
+AXIS	HK	HK Static	0x221	Reserved	104	8	fill	big		Reserved, always zero. Aligns the fields after the three version bytes to 16 bits.	IPX-ICD-002r4.3
+AXIS	HK	HK Static	0x221	Reset Cause	112	16	uint	big		Raw resetSource_t from the last boot. A commanded software reset reads 0x0010 SW_RESET.	IPX-ICD-002r4.3
+AXIS	HK	HK Static	0x221	Thread A Period	128	16	uint	big	50 ms period	Thread A cadence.	IPX-ICD-002r4.3
+AXIS	HK	HK Static	0x221	Thread B Period	144	16	uint	big	50 ms period	Thread B cadence.	IPX-ICD-002r4.3
+AXIS	HK	HK Static	0x221	Scrub Corrected	160	16	uint	big		Lifetime single-bit ECC repairs by the NVM scrubber.	IPX-ICD-002r4.3
+AXIS	HK	HK Static	0x221	Scrub Uncorrectable	176	16	uint	big		Lifetime double-bit ECC detections — not repairable onboard.	IPX-ICD-002r4.3
+AXIS	HK	HK Static	0x221	Disabled Pixels	192	16	uint	big		Pixels disabled by hot-pixel detection.	IPX-ICD-002r4.3
+AXIS	HK	HK Static	0x221	NVM Erase Total	208	32	uint	big		Lifetime bank-7 sector erases. Does not saturate.	IPX-ICD-002r4.3
+AXIS	HK	HK Static	0x221	NVM FSM Stuck Count	240	16	uint	big		Flash-FSM give-ups this boot. RAM-only.	IPX-ICD-002r4.3
+AXIS	HK	HK Static	0x221	Fault Clears	256	16	uint	big		SAFE releases this boot, commanded plus autonomous. RAM-only.	IPX-ICD-002r4.3
+AXIS	HK	HK Static	0x221	Boot Count	272	32	uint	big		Total boots of this unit, from the persistent stats record (SL_stats). 32 bits, matching the stored type.	IPX-ICD-002r4.3
+											
+AXIS	HK	Debug	0x222	Coarse Time	0	32	uint	big		Coarse time counter. Instrument clock, in seconds, when the packet is built. Set by OBC Time at Tone command.	
+AXIS	HK	Debug	0x222	Fine Time	32	16	uint	big		Fine time counter. Milliseconds into the coarse second.	
+AXIS	HK	Debug	0x222	Ancillary Data	48	32	fill	big		Placeholder.	
+AXIS	HK	Debug	0x222	Mode	80	8	uint	big		Which mode the instrument is in. Values: Instrument Mode (see table below).	IPX-ICD-002r4.3
+AXIS	HK	Debug	0x222	Last Severity	88	8	uint	big		Severity of the most recent fault.	IPX-ICD-002r4.3
+AXIS	HK	Debug	0x222	Fault Total	96	32	uint	big		Faults since boot.	IPX-ICD-002r4.3
+AXIS	HK	Debug	0x222	Fault Severity []	128	32	uint(4)	big		Per-severity fault histogram.	IPX-ICD-002r4.3
+AXIS	HK	Debug	0x222	Last Source	256	16	uint	big		Subsystem that raised the most recent fault (Fault Source). Values: Fault Source (see table below).	IPX-ICD-002r4.3
+AXIS	HK	Debug	0x222	Last Code	272	16	uint	big		Subsystem-specific code for it.	IPX-ICD-002r4.3
+AXIS	HK	Debug	0x222	CPU Busy	288	16	uint	big		Processor busy fraction over the last measurement interval, 0..1000. Computed on the box.	IPX-ICD-002r4.3
+AXIS	HK	Debug	0x222	CPU Busy Peak	304	16	uint	big		Worst busy fraction of any interval since boot, 0..1000.	IPX-ICD-002r4.3
+AXIS	HK	Debug	0x222	Capture Drained	320	32	uint	big		ADC results the drain consumed: EVERY captured pair, good or not.	IPX-ICD-002r4.3
+AXIS	HK	Debug	0x222	Capture False Event	352	32	uint	big		Complete pair carrying the reserved all-zeros address. Not a loss.	IPX-ICD-002r4.3
+AXIS	HK	Debug	0x222	Capture Multi Edges	384	32	uint	big		MULTI edges counted in the ISR before attribution: the m in the dead-time correction n = m/(1 - m*tau).	IPX-ICD-002r4.3
+AXIS	HK	Debug	0x222	Capture Multi Dropped	416	32	uint	big		Events discarded because their slot carried a mark.	IPX-ICD-002r4.3
+AXIS	HK	Debug	0x222	Capture Multi Late	448	32	uint	big		Edges that could not be attributed at all. A SUBSET of Capture Multi Edges.	IPX-ICD-002r4.3
+AXIS	HK	Debug	0x222	Capture Overrun	480	32	uint	big		Events lost because the capture ring lapped before the drain reached them.	IPX-ICD-002r4.3
+AXIS	HK	Debug	0x222	Sequence Failed	512	8	uint	big		Latched: did the last sequence run fail. Survives until the next Run Sequence.	IPX-ICD-002r4.3
+AXIS	HK	Debug	0x222	Sequence Index	520	8	uint	big		Which sequence failed.	IPX-ICD-002r4.3
+AXIS	HK	Debug	0x222	Sequence Step	528	8	uint	big		Which step index.	IPX-ICD-002r4.3
+AXIS	HK	Debug	0x222	Sequence NACK Reason	536	8	uint	big		The handler's NACK code for that step.	IPX-ICD-002r4.3
+AXIS	HK	Debug	0x222	Sequence OpCode	544	16	uint	big		That step's opcode.	IPX-ICD-002r4.3
+											
+AXIS	HK	Science Configuration	0x223	Coarse Time	0	32	uint	big		Coarse time counter. Instrument clock, in seconds, when the packet is built. Set by OBC Time at Tone command.	
+AXIS	HK	Science Configuration	0x223	Fine Time	32	16	uint	big		Fine time counter. Milliseconds into the coarse second.	
+AXIS	HK	Science Configuration	0x223	Ancillary Data	48	32	fill	big		Placeholder.	
+AXIS	HK	Science Configuration	0x223	Magic	80	32	uint	big		Record magic.	IPX-ICD-002r4.3
+AXIS	HK	Science Configuration	0x223	Version	112	16	uint	big		Record layout version.	IPX-ICD-002r4.3
+AXIS	HK	Science Configuration	0x223	Length	128	16	uint	big		Record length in bytes.	IPX-ICD-002r4.3
+AXIS	HK	Science Configuration	0x223	Priority Threshold []	144	32	uint(4)	big		Downlink-priority thresholds T0..T3 in events per second, strictly increasing.	IPX-ICD-002r4.3
+AXIS	HK	Science Configuration	0x223	Energy Edges (16 bins) []	272	16	uint(17)	big		16-bin energy LUT: 17 edges, ADC codes 0..4095, strictly increasing; edge i is the lower bound of bin i.	IPX-ICD-002r4.3
+AXIS	HK	Science Configuration	0x223	Energy Edges (8 bins) []	544	16	uint(9)	big		8-bin energy LUT: 9 edges over the same window as Energy Edges (16 bins).	IPX-ICD-002r4.3
+AXIS	HK	Science Configuration	0x223	PPS Mode	688	16	uint	big		PPS adoption mode. Values: PPS Mode (see table below).	IPX-ICD-002r4.3
+AXIS	HK	Science Configuration	0x223	Hot Pixel Factor	704	16	uint	big		Hot-pixel sensitivity: a pixel is disabled when its count exceeds Factor x the mean count of the pixels that fired. 0 = detection off.	IPX-ICD-002r4.3
+AXIS	HK	Science Configuration	0x223	NSP Routing Enabled	720	8	uint	big		NSP command routing enabled (RADICALS only).	IPX-ICD-002r4.3
+AXIS	HK	Science Configuration	0x223	NSP Default Command	728	8	uint	big		Default 5-bit NSP command for outgoing packets. RADICALS only.	IPX-ICD-002r4.3
+AXIS	HK	Science Configuration	0x223	NSP Priority Command []	736	8	uint(6)	big		NSP command per downlink priority band. RADICALS only.	IPX-ICD-002r4.3
+AXIS	HK	Science Configuration	0x223	Correction Enabled	784	16	uint	big		Per-event energy correction applied (persisted value). Values: see Arm Protected Command (0x04).	IPX-ICD-002r4.3
+											
+AXIS	HK	Sensor Configuration	0x224	Coarse Time	0	32	uint	big		Coarse time counter. Instrument clock, in seconds, when the packet is built. Set by OBC Time at Tone command.	
+AXIS	HK	Sensor Configuration	0x224	Fine Time	32	16	uint	big		Fine time counter. Milliseconds into the coarse second.	
+AXIS	HK	Sensor Configuration	0x224	Ancillary Data	48	32	fill	big		Placeholder.	
+AXIS	HK	Sensor Configuration	0x224	Magic	80	32	uint	big		Record magic.	
+AXIS	HK	Sensor Configuration	0x224	Version	112	16	uint	big		Record layout version.	
+AXIS	HK	Sensor Configuration	0x224	Detector Count	128	16	uint	big		Number of detector modules in the image.	
+AXIS	HK	Sensor Configuration	0x224	Detector record	144	20736	str	big		12 records. Fields of one record follow, offsets relative to the record.	
+AXIS	HK	Sensor Configuration	0x224	Buffer	20880	1728	str	big		215 bit-packed bytes plus one reserved-zero byte for the even-length rule. The CRC covers the real 215.	
+											
+AXIS	HK	Sequence Readback	0x225	Coarse Time	0	32	uint	big		Coarse time counter. Instrument clock, in seconds, when the packet is built. Set by OBC Time at Tone command.	
+AXIS	HK	Sequence Readback	0x225	Fine Time	32	16	uint	big		Fine time counter. Milliseconds into the coarse second.	
+AXIS	HK	Sequence Readback	0x225	Ancillary Data	48	32	fill	big		Placeholder.	
+AXIS	HK	Sequence Readback	0x225	Sequence	80	8	uint	big		Sequence slot, 0..9. Echoed from the request.	
+AXIS	HK	Sequence Readback	0x225	Count	88	8	uint	big		Number of steps that follow. 0 = the slot is empty.	
+AXIS	HK	Sequence Readback	0x225	Step record	96	160	uint	big		up to 20 records; count gives the count. Fields of one record follow, offsets relative to the record.	
+AXIS	HK	Sequence Readback	0x225	OpCode	256	8	uint	big		The step's OpCode (every opcode is < 32).	
+AXIS	HK	Sequence Readback	0x225	Delay Ticks	264	16	uint	big		Wait AFTER this step completes, before the next is dispatched.	
+AXIS	HK	Sequence Readback	0x225	Length	280	8	uint	big		How many of the 16 payload bytes are meaningful.	
+AXIS	HK	Sequence Readback	0x225	Payload []	288	8	uint(16)	big		The step's command parameters, zero-filled past len. Always 16 bytes on the wire.	
+											
+AXIS	HK	Memory Readback	0x226	Coarse Time	0	32	uint	big		Coarse time counter. Instrument clock, in seconds, when the packet is built. Set by OBC Time at Tone command.	
+AXIS	HK	Memory Readback	0x226	Fine Time	32	16	uint	big		Fine time counter. Milliseconds into the coarse second.	
+AXIS	HK	Memory Readback	0x226	Ancillary Data	48	32	fill	big		Placeholder.	
+AXIS	HK	Memory Readback	0x226	Address	80	32	uint	big		The NVM address the data was read from; echo of the Peek's address.	
+AXIS	HK	Memory Readback	0x226	Data	112	8	uint(expand)	big		The bytes at that address, 2..PEEK_MAX_BYTES, even length (an odd Number of Bytes is NACKed). At most PEEK_MAX_BYTES bytes.	
+											
+AXIS	NOM	Science Nominal Resolution	0x252	Coarse Time	0	32	uint	big		Coarse time counter. Instrument clock, in seconds, when the packet is built. Set by OBC Time at Tone command.	
+AXIS	NOM	Science Nominal Resolution	0x252	Fine Time	32	16	uint	big		Fine time counter. Milliseconds into the coarse second.	
+AXIS	NOM	Science Nominal Resolution	0x252	Ancillary Data	48	32	fill	big		Placeholder.	
+AXIS	NOM	Science Nominal Resolution	0x252	Total Events	80	15	uint	big		Events detected in the window.	
+AXIS	NOM	Science Nominal Resolution	0x252	Saturation	95	11	uint	big		Summed excess across all bins: counts that did not fit their cell (a cell counts 0..2^n-2; 2^n-1 marks saturation).	
+AXIS	NOM	Science Nominal Resolution	0x252	Multi Events	106	11	uint	big		MULTI (pile-up) edges attributed to the window: the m in the dead-time correction n = m/(1 - m*tau).	
+AXIS	NOM	Science Nominal Resolution	0x252	Sample Rate	117	7	uint	big		Window length in 50 ms base ticks (the thread's cadence).	
+AXIS	NOM	Science Nominal Resolution	0x252	Energy Underflow	124	10	uint	big		Events below the lowest bin edge, all pixels combined.	
+AXIS	NOM	Science Nominal Resolution	0x252	Energy Overflow	134	10	uint	big		Events above the highest bin edge, all pixels combined.	
+AXIS	NOM	Science Nominal Resolution	0x252	Pixel Data	144	6	uint(256)	big		Cells in pixel order, bin 0 first. 256 cells, each 6 bits deep.	
